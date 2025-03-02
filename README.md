@@ -2,7 +2,7 @@
 
 An intelligent web application that recommends recipes based on the ingredients you have available, dietary restrictions, and meal preferences. Powered by DeepSeek AI.
 
-![Recipe Recommender Screenshot](https://i.imgur.com/example-screenshot.jpg)
+<!-- ![Recipe Recommender Screenshot](https://i.imgur.com/example-screenshot.jpg) -->
 
 ## Features
 
