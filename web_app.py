@@ -44,7 +44,8 @@ def get_recipe_recommendations(ingredients, dietary_restrictions, meal_type):
                 {"role": "user", "content": user_message}
             ],
             temperature=0.7,
-            max_tokens=2000
+            max_tokens=800,
+            timeout=8
         )
         
         # Extract the response content
