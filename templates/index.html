@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recipe Recommender</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --accent-color: #ffd166;
+            --dark-color: #2d3436;
+            --light-color: #f9f9f9;
+            --success-color: #6bff8d;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f7fa;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23e0e0e0' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        form {
+            padding: 0 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        input[type="text"]:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+            outline: none;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .recommendations {
+            margin-top: 40px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .recommendations h2 {
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+        
+        .emoji {
+            font-size: 28px;
+            vertical-align: middle;
+            margin: 0 10px;
+        }
+        
+        /* Styling for the recipe content */
+        .recommendations h2 {
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .recommendations h3 {
+            color: var(--primary-color);
+            margin-top: 25px;
+            font-size: 1.5rem;
+        }
+        
+        .recommendations ul, .recommendations ol {
+            padding-left: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .recommendations li {
+            margin-bottom: 10px;
+        }
+        
+        .recommendations p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .recommendations strong {
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="emoji">🍳</span> AI Recipe Recommender <span class="emoji">🍳</span></h1>
+        
+        <form method="POST" id="recipeForm">
+            <div class="form-group">
+                <label for="ingredients">Available Ingredients (comma-separated):</label>
+                <input type="text" id="ingredients" name="ingredients" placeholder="e.g., chicken, rice, onion, garlic" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="dietary">Dietary Restrictions (comma-separated, leave empty if none):</label>
+                <input type="text" id="dietary" name="dietary" placeholder="e.g., vegetarian, gluten-free, vegan">
+            </div>
+            
+            <div class="form-group">
+                <label for="meal_type">Meal Type (leave empty if any):</label>
+                <input type="text" id="meal_type" name="meal_type" placeholder="e.g., breakfast, lunch, dinner, snack">
+            </div>
+            
+            <button type="submit">Get Recipe Recommendations</button>
+        </form>
+        
+        <div class="loading" id="loadingIndicator">
+            <p>Cooking up some delicious recipes for you...</p>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+    
+    {% if recommendations %}
+    <div class="recommendations">
+        <h2><span class="emoji">🍽️</span> RECIPE RECOMMENDATIONS <span class="emoji">🍽️</span></h2>
+        {{ recommendations|safe }}
+    </div>
+    {% endif %}
+    
+    <script>
+        document.getElementById('recipeForm').addEventListener('submit', function() {
+            document.getElementById('loadingIndicator').style.display = 'block';
+        });
+    </script>
+</body>
+</html> 
